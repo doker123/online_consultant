@@ -1,0 +1,26 @@
+{
+  "name": "doker123/online_consultant",
+  "description": "online consultant",
+  "require": {
+    "php": "^8.4",
+    "illuminate/database": "^11.0",
+    "illuminate/events": "^11.0",
+    "nikic/fast-route": "^2.0@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Src\\": "core/Src/",
+      "Model\\": "app/Model/",
+      "Controller\\": "app/Controller/",
+      "Middleware\\": "app/Middleware/",
+      "Validators\\": "app/Validators/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "doker123"
+    }
+  ],
+  "minimum-stability": "dev"
+}

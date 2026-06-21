@@ -1,0 +1,5 @@
+.idea
+vendor
+config/db.php
+access.log
+error.log
