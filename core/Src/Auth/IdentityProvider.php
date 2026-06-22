@@ -2,22 +2,23 @@
 
 namespace Src\Auth;
 
-use Model\Admin;
-use Model\Aspirant;
-use Model\ScientificDirector;
+use Model\User;
 
 class IdentityProvider implements IdentityInterface
 {
+    private static ?IdentityProvider $instance = null;
+
+    public static function single(): IdentityProvider
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     public function findIdentity(int $id)
     {
-        $userType = \Src\Session::get('user_type');
-
-        return match ($userType) {
-            'admin' => Admin::where('id', $id)->first(),
-            'director' => ScientificDirector::where('director_id', $id)->first(),
-            'aspirant' => Aspirant::where('aspirant_id', $id)->first(),
-            default => null,
-        };
+        return User::where('id', $id)->first();
     }
 
     public function getId(): int
@@ -27,24 +28,11 @@ class IdentityProvider implements IdentityInterface
 
     public function attemptIdentity(array $credentials)
     {
-        $admin = Admin::where('login', $credentials['login'])->first();
-        if ($admin && password_verify($credentials['password'], $admin->password)) {
-            \Src\Session::set('user_type', 'admin');
-            return $admin;
+        $user = User::where('username', $credentials['login'])->first();
+        if ($user && password_verify($credentials['password'], $user->password)) {
+            \Src\Session::set('user_type', $user->role);
+            return $user;
         }
-
-        $director = ScientificDirector::where('login', $credentials['login'])->first();
-        if ($director && password_verify($credentials['password'], $director->password)) {
-            \Src\Session::set('user_type', 'director');
-            return $director;
-        }
-
-        $aspirant = Aspirant::where('login', $credentials['login'])->first();
-        if ($aspirant && password_verify($credentials['password'], $aspirant->password)) {
-            \Src\Session::set('user_type', 'aspirant');
-            return $aspirant;
-        }
-
         return null;
     }
 
@@ -55,7 +43,7 @@ class IdentityProvider implements IdentityInterface
 
     public static function getDisplayName(): string
     {
-        $user = self::single()->findIdentity(self::single()->getId());
+        $user = self::currentUser();
         if ($user && method_exists($user, 'getDisplayName')) {
             return $user->getDisplayName();
         }
@@ -76,16 +64,4 @@ class IdentityProvider implements IdentityInterface
         }
         return null;
     }
-
-    private static ?IdentityProvider $instance = null;
-
-    public static function single(): IdentityProvider
-    {
-        if (self::$instance === null) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    public function __construct() {}
 }

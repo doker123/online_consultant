@@ -1,20 +1,28 @@
-<div class="signup-block">
-    <h2 class="signup-block__title">Регистрация</h2>
-    <form class="signup-form" action="/signup" method="post">
-        <label class="signup-form__label" for="username">Имя</label>
-        <input class="signup-form__input" type="text" name="username" id="username" placeholder="Имя пользователя" required>
-        <label class="signup-form__label" for="email">Почта</label>
-        <input class="signup-form__input" type="email" name="email" id="email" placeholder="Email" required>
-        <label class="signup-form__label" for="password">Пароль</label>
-        <input class="signup-form__input" type="password" name="password" id="password" placeholder="Пароль" required>
-        <label></label>
-        <select>
-            
-        </select>
-            
-        <button class="signup-form__button" type="submit">Зарегистрироваться</button>
+<?php /** @var $errors array */ /** @var $old array */ ?>
+<div class="auth-block">
+    <h2 class="auth-block__title">Регистрация</h2>
+
+    <?php if (!empty($errors)): ?>
+        <div class="auth-errors">
+            <?php foreach ($errors as $error): ?>
+                <p class="auth-error"><?= htmlspecialchars($error) ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <form class="auth-form" action="<?= app()->route->getUrl('/signup') ?>" method="post">
+        <label class="auth-form__label" for="username">Имя</label>
+        <input class="auth-form__input" type="text" name="username" id="username" placeholder="Имя пользователя" value="<?= htmlspecialchars($old['username'] ?? '') ?>" required minlength="3">
+
+        <label class="auth-form__label" for="email">Почта</label>
+        <input class="auth-form__input" type="email" name="email" id="email" placeholder="Email" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
+
+        <label class="auth-form__label" for="password">Пароль</label>
+        <input class="auth-form__input" type="password" name="password" id="password" placeholder="Минимум 6 символов" required minlength="6">
+
+        <button class="auth-form__button" type="submit">Зарегистрироваться</button>
     </form>
-    <p class='signup-block__paragraph'>У вас есть аккаунт в системе?
-       <a class='signup-block__link' href="#">Авторизация</a>
+    <p class="auth-block__paragraph">Уже есть аккаунт?
+       <a class="auth-block__link" href="<?= app()->route->getUrl('/login') ?>">Войти</a>
     </p>
 </div>

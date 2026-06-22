@@ -3,3 +3,5 @@ vendor
 config/db.php
 access.log
 error.log
+public/uploads/avatars/*
+public/uploads/pages/*

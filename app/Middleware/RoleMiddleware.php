@@ -7,20 +7,22 @@ use Src\Request;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, ?string $roles = null): void
+    public function handle(Request $request, ?string $roles = null): ?Request
     {
         if (!Auth::check()) {
-            app()->route->redirect("/login");
+            app()->route->redirect('/login');
             exit();
         }
 
         if ($roles) {
-            $allowedRoles = explode(",", $roles);
+            $allowedRoles = explode(',', $roles);
             $userRole = Auth::getUserType();
             if (!in_array($userRole, $allowedRoles, true)) {
-                app()->route->redirect("/");
+                app()->route->redirect('/');
                 exit();
             }
         }
+
+        return $request;
     }
 }

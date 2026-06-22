@@ -2,59 +2,46 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Аспирантура</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Онлайн-консультант</title>
     <?php $url = app()->route; ?>
-    <link rel="stylesheet" href="<?= $url->getUrl(
-        "/public/css/layouts/main.css",
-    ) ?>">
+    <link rel="stylesheet" href="<?= $url->getUrl('/public/css/layouts/main.css') ?>">
 </head>
 <body>
-<?php use Src\Auth\Auth; ?>
+<?php use Src\Auth\Auth; use Model\Page; ?>
 <header class="header">
     <nav class="header-nav">
-        <a href="<?= app()->route->getUrl("/") ?>">Главная</a>
-        <?php if (Auth::check()): ?>
-            <?php $userType = Auth::getUserType(); ?>
-            <div class="header-nav__menu">
-                <?php if ($userType === "admin"): ?>
-
-                <?php elseif ($userType === "user"): ?>
-
+        <a href="<?= app()->route->getUrl('/') ?>" class="header-logo">Онлайн-консультант</a>
+        <div class="header-menu">
+            <?php
+            $cmsPages = Page::published()->orderBy('title')->get();
+            foreach ($cmsPages as $cmsPage): ?>
+                <a href="<?= app()->route->getUrl('/page/' . $cmsPage->slug) ?>"><?= htmlspecialchars($cmsPage->title) ?></a>
+            <?php endforeach; ?>
+            <?php if (Auth::check()): ?>
+                <?php if (Auth::isAdmin()): ?>
+                    <a href="<?= app()->route->getUrl('/admin') ?>">Админ-панель</a>
+                <?php else: ?>
+                    <a href="<?= app()->route->getUrl('/chat') ?>">Чат</a>
                 <?php endif; ?>
-
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
+        </div>
         <div class="nav-user">
             <?php if (!Auth::check()): ?>
-            <div>
-
-            </div>
-            <div>
-                <a class="signup" href="<?= app()->route->getUrl(
-                    "/signup",
-                ) ?>">Регистрация</a>
-                <a class="login" href="<?= app()->route->getUrl(
-                    "/login",
-                ) ?>">Вход</a>
-            </div>
+                <a href="<?= app()->route->getUrl('/signup') ?>">Регистрация</a>
+                <a href="<?= app()->route->getUrl('/login') ?>">Вход</a>
             <?php else: ?>
                 <?php
                 $roleNames = [
-                    "admin" => "Администратор",
-                    "user" => "Пользователь",
+                    'admin' => 'Администратор',
+                    'user' => 'Пользователь',
                 ];
-                $roleName = $roleNames[$userType] ?? "Неизвестный";
+                $userType = Auth::getUserType();
+                $roleName = $roleNames[$userType] ?? 'Неизвестный';
                 $displayName = Auth::getDisplayName();
                 ?>
-                <span class="user-role"><?= $roleName ?>: <?= htmlspecialchars(
-                        $displayName,
-                    ) ?></span>
-                <a class="logout" href="<?= app()->route->getUrl(
-                    "/logout",
-                ) ?>">Выход</a>
+                <span class="user-info"><?= $roleName ?>: <?= htmlspecialchars($displayName) ?></span>
+                <a href="<?= app()->route->getUrl('/logout') ?>">Выход</a>
             <?php endif; ?>
         </div>
     </nav>

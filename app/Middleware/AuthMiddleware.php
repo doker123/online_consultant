@@ -7,11 +7,12 @@ use Src\Request;
 
 class AuthMiddleware
 {
-    public function handle(Request $request): void
+    public function handle(Request $request): ?Request
     {
         if (!Auth::check()) {
-            app()->route->redirect("/login");
+            app()->route->redirect('/login');
             exit();
         }
+        return $request;
     }
 }
