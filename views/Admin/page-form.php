@@ -19,7 +19,7 @@
         <form action="<?= app()->route->getUrl($page ? '/admin/pages/' . $page->id . '/edit' : '/admin/pages/create') ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="title">Название</label>
-                <input type="text" id="title" name="title" value="<?= htmlspecialchars($old['title'] ?? ($page->title ?? '')) ?>" required class="form-input">
+                <input type="text" id="title" name="title" value="<?= htmlspecialchars($old['title'] ?? ($page->title ?? '')) ?>" class="form-input">
             </div>
 
             <div class="form-group">
@@ -41,7 +41,7 @@
 
             <div class="form-group">
                 <label for="content">Контент</label>
-                <textarea id="content" name="content" rows="15" required class="form-textarea"><?= htmlspecialchars($old['content'] ?? ($page->content ?? '')) ?></textarea>
+                <textarea id="content" name="content" rows="15" class="form-textarea"><?= htmlspecialchars($old['content'] ?? ($page->content ?? '')) ?></textarea>
             </div>
 
             <div class="form-group">
@@ -50,7 +50,7 @@
                     Опубликовано
                 </label>
             </div>
-
+            <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Сохранить</button>
                 <a href="<?= app()->route->getUrl('/admin/pages') ?>" class="btn btn-secondary">Отмена</a>

@@ -1,4 +1,3 @@
-<?php /** @var $users User[] */ /** @var $bans Collection */ ?>
 <div class="admin-container">
     <h1>Пользователи</h1>
 
@@ -34,8 +33,8 @@
                             </form>
                         <?php else: ?>
                             <form action="<?= app()->route->getUrl('/admin/ban/' . $u->id) ?>" method="post" class="inline-ban-form">
-                                <input type="text" name="reason" placeholder="Причина" required class="input-small">
-                                <input type="number" name="duration" placeholder="Часы" min="1" value="1" class="input-small">
+                                <input type="text" name="reason" placeholder="Причина" class="input-small">
+                                <input type="text" name="duration" placeholder="Часы" value="1" class="input-small">
                                 <button type="submit" class="btn-small btn-ban">Забанить</button>
                             </form>
                         <?php endif; ?>

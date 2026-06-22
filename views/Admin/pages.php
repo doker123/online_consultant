@@ -1,4 +1,3 @@
-<?php /** @var $pages Page[] */ ?>
 <div class="admin-container">
     <h1>Страницы</h1>
 

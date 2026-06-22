@@ -26,6 +26,7 @@ class Application
 
         $this->dbRun();
         $this->auth::init(new \Src\Auth\IdentityProvider());
+        $this->auth::generateCSRF();
     }
 
     public function __get($key)

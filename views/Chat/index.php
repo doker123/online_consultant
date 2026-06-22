@@ -57,7 +57,8 @@
 
     <?php if (!$ban): ?>
         <form class="chat-form" action="<?= app()->route->getUrl('/chat/send') ?>" method="post">
-            <textarea class="chat-input" name="text" id="chatInput" placeholder="Введите сообщение..." rows="2" required></textarea>
+            <textarea class="chat-input" name="text" id="chatInput" placeholder="Введите сообщение..." rows="2"></textarea>
+            <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
             <button class="chat-send" type="submit">Отправить</button>
         </form>
     <?php else: ?>
@@ -76,7 +77,8 @@
             <?php endif; ?>
         </div>
         <form action="<?= app()->route->getUrl('/admin/avatar') ?>" method="post" enctype="multipart/form-data" class="avatar-form">
-            <input type="file" name="avatar" accept="image/*" required>
+            <input type="file" name="avatar" accept="image/*">
+            <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
             <button type="submit" class="btn-small">Загрузить аватар</button>
         </form>
     </div>

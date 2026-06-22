@@ -1,4 +1,3 @@
-<?php /** @var $chats Chat[] */ /** @var $totalUsers int */ /** @var $activeChats int */ /** @var $totalMessages int */ /** @var $bannedUsers int */ /** @var $totalPages int */ ?>
 <div class="admin-container">
     <h1>Админ-панель</h1>
 

@@ -87,8 +87,11 @@ class Auth
 
     public static function generateCSRF(): string
     {
-        $token = bin2hex(random_bytes(32));
-        Session::set("csrf_token", $token);
+        $token = Session::get("csrf_token");
+        if ($token === null) {
+            $token = bin2hex(random_bytes(32));
+            Session::set("csrf_token", $token);
+        }
         return $token;
     }
 }

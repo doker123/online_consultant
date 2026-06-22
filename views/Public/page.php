@@ -1,4 +1,3 @@
-<?php /** @var $page Page */ ?>
 <div class="page-container">
     <?php if ($page->image): ?>
         <div class="page-image">

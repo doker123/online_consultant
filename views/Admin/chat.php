@@ -33,7 +33,8 @@
     </div>
 
     <form class="chat-form" action="<?= app()->route->getUrl('/admin/chat/' . $chat->id . '/send') ?>" method="post">
-        <textarea class="chat-input" name="text" placeholder="Введите сообщение..." rows="2" required></textarea>
+        <textarea class="chat-input" name="text" placeholder="Введите сообщение..." rows="2"></textarea>
+        <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
         <button class="chat-send" type="submit">Отправить</button>
     </form>
 
@@ -50,6 +51,7 @@
             </div>
             <form action="<?= app()->route->getUrl('/admin/unban/' . $chat->user_id) ?>" method="post" class="ban-form">
                 <input type="hidden" name="chat_id" value="<?= $chat->id ?>">
+                <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
                 <button type="submit" class="btn-unban">Разбанить</button>
             </form>
         <?php else: ?>
@@ -57,17 +59,18 @@
                 <input type="hidden" name="chat_id" value="<?= $chat->id ?>">
                 <div class="form-group">
                     <label for="reason">Причина бана</label>
-                    <textarea name="reason" id="reason" rows="2" required></textarea>
+                    <textarea name="reason" id="reason" rows="2"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="duration">Время (часы)</label>
-                    <input type="number" name="duration" id="duration" min="1" max="720" value="1">
+                    <input type="text" name="duration" id="duration" value="1">
                 </div>
                 <div class="form-group">
                     <label>
                         <input type="checkbox" name="permanent" value="1"> Навсегда
                     </label>
                 </div>
+                <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
                 <button type="submit" class="btn-ban">Забанить</button>
             </form>
         <?php endif; ?>

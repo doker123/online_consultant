@@ -12,13 +12,14 @@
 
     <form class="auth-form" action="<?= app()->route->getUrl('/signup') ?>" method="post">
         <label class="auth-form__label" for="username">Имя</label>
-        <input class="auth-form__input" type="text" name="username" id="username" placeholder="Имя пользователя" value="<?= htmlspecialchars($old['username'] ?? '') ?>" required minlength="3">
+        <input class="auth-form__input" type="text" name="username" id="username" placeholder="Имя пользователя" value="<?= htmlspecialchars($old['username'] ?? '') ?>">
 
         <label class="auth-form__label" for="email">Почта</label>
-        <input class="auth-form__input" type="email" name="email" id="email" placeholder="Email" value="<?= htmlspecialchars($old['email'] ?? '') ?>" required>
+        <input class="auth-form__input" type="text" name="email" id="email" placeholder="Email" value="<?= htmlspecialchars($old['email'] ?? '') ?>">
 
         <label class="auth-form__label" for="password">Пароль</label>
-        <input class="auth-form__input" type="password" name="password" id="password" placeholder="Минимум 6 символов" required minlength="6">
+        <input class="auth-form__input" type="password" name="password" id="password" placeholder="Минимум 6 символов">
+        <input type="hidden" name="csrf_token" value="<?= \Src\Session::get('csrf_token') ?>">
 
         <button class="auth-form__button" type="submit">Зарегистрироваться</button>
     </form>
